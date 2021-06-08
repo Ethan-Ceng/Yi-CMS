@@ -3,7 +3,7 @@
     <SideMenu :isCollapse="isCollapse"></SideMenu>
     <el-container>
       <el-header class="header-container">
-        <div class="collapse-btn" v-on:click="toggleCollapse">
+        <div class="collapse-btn" v-on:click="toggleCollapse(!isCollapse)">
           <i v-show="!isCollapse" class="el-icon-s-fold"></i>
           <i v-show="isCollapse" class="el-icon-s-unfold"></i>
         </div>
@@ -24,12 +24,13 @@ export default {
   },
   data() {
     return {
-      isCollapse: true,
+      isCollapse: false,
     };
   },
   methods: {
-    toggleCollapse() {
-      this.isCollapse = !this.isCollapse;
+    toggleCollapse(status) {
+      console.log(status);
+      this.isCollapse = status;
     },
   },
 };

@@ -7,43 +7,47 @@
       @close="handleClose"
       :collapse="isCollapse"
     >
-      <el-submenu index="1">
-        <template #title>
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
+      <template v-for="item in menuList">
+        <!-- 多子菜单（一个或多个，一个时由 showSubMenu 确定是否展示父菜单）-->
+        <template v-if="item.children && item.children.length >= 1">
+          <!-- 直接展示子菜单 只有一个资源菜单，判断是否直接展示 -->
+          <el-menu-item
+            v-if="showChildren(item)"
+            :index="item.children[0].name"
+            :route="item.children[0]"
+            :key="`menu-${item.children[0].name}`"
+          >
+            <i class="el-icon-menu"></i>
+            <template #title>{{
+              item.children[0].meta.title || "导航一"
+            }}</template>
+          </el-menu-item>
+          <!-- 多级展示 -->
+          <SubMenu v-else :parentItem="item" :key="`menu-${item.name}`" />
         </template>
-        <el-menu-item-group>
-          <template #title>分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template #title>选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <template #title>导航二</template>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <template #title>导航三</template>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <template #title>导航四</template>
-      </el-menu-item>
+        <!-- 无子菜单 children null -->
+        <el-menu-item
+          v-else
+          :index="item.name"
+          :route="item"
+          :key="`menu-${item.name}`"
+        >
+          <i class="el-icon-menu"></i>
+          <template #title>{{ item.meta.title || "导航一" }}</template>
+        </el-menu-item>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <script>
+import MenuList from "@/router/routers.js";
+import SubMenu from "./submenu.vue";
 export default {
-  name: "HelloWorld",
+  name: "SideMenu",
+  components: {
+    SubMenu,
+  },
   props: {
     isCollapse: {
       type: Boolean,
@@ -52,7 +56,19 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      menuList: MenuList,
+    };
+  },
   methods: {
+    showChildren(item) {
+      if (item.children && item.children.length >= 1) {
+        return false;
+      }
+      return true;
+      // return item.children && (item.children.length > 1 || (item.meta && item.meta.showSubMenu))
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

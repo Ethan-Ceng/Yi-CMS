@@ -17,7 +17,9 @@ import { Message } from "element-ui";
  * @type {string}
  */
 const baseUrl =
-  process.env.NODE_ENV === "development" ? config.baseUrl.dev : config.baseUrl.pro;
+  process.env.NODE_ENV === "development"
+    ? config.baseUrl.dev
+    : config.baseUrl.pro;
 const ERR_EXPIRES = 10000;
 const TIMEOUT = 10000;
 
