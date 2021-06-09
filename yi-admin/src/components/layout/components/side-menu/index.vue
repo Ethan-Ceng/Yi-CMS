@@ -1,8 +1,8 @@
 <template>
   <div class="aside-container">
     <el-menu
-      default-active="1-4-1"
       class="side-menu"
+      router
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"

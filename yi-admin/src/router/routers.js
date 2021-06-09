@@ -58,10 +58,11 @@ const routes = [
           notCache: true,
           icon: "md-home",
         },
+        component: Layout,
         children: [
           {
             path: "/home3",
-            name: "home3",
+            name: "_home3",
             meta: {
               hideInMenu: false,
               title: "首页3",
@@ -72,7 +73,7 @@ const routes = [
           },
           {
             path: "/dashboard3",
-            name: "dashboard3",
+            name: "_dashboard3",
             meta: {
               hideInMenu: true,
               title: "仪表盘3",
